@@ -1,58 +1,10 @@
 # grounded-summaries
 
-**Prevent AI agents from fabricating daily summaries — born from a real production incident.**
-
 **防止 AI Agent 在总结类任务中编造内容——来自一次真实的线上事故。**
 
-[English](#english) | [中文](#中文)
+**Prevent AI agents from fabricating daily summaries — born from a real production incident.**
 
----
-
-## English
-
-A skill (Claude / Agent Skills format) that stops AI agents from fabricating content in summary tasks.
-
-### Background
-
-From a real production incident: an AI agent received a scheduled daily-summary task, but there had been no conversations that day. Instead of reporting "no records," it assembled an entire day of activity from the user profile and memory archives — details precise to the decimal point. It even wrote the fabricated entries into a persistent config file, creating a self-corroborating loop. Until the user saw the report and asked: *"When did I ever ask that?"*
-
-This skill turns the full postmortem (failure mode → trigger mechanism → rules → pre-flight checklist → examples) into a reusable guardrail.
-
-### Use Cases
-
-- Daily/weekly automated summary tasks for AI agents (the worst-hit zone)
-- Any retrospective, report, or changelog generated from conversation history or stored data
-- Auditing agent-generated logs for fabricated content
-
-### What's Inside
-
-- **Failure mode**: the Blank-Day Hallucination — generating "today's activity" from the user profile when data is empty
-- **Trigger formula**: Data Vacuum × Strong Template × High-Fidelity Material × Statistical Prior × No Verification
-- **Six rules**: factual output only from current-session tool returns; empty data → "no records"; memory archives ≠ today's facts; and more
-- **Pre-flight checklist**: traceability / profile contamination / number provenance / blank legitimacy / persistence gatekeeping
-
-### Installation
-
-```bash
-git clone https://github.com/mowenQWQ/grounded-summaries-skill.git
-cp -r grounded-summaries-skill/grounded-summaries /path/to/your/agent/skills/
-```
-
-For Claude Code / OpenClaw-style environments, the skills directory is typically `~/.claude/skills/` or `.claude/skills/` within a project; for other agent frameworks, check their respective skills paths.
-
-Zero configuration after install — the skill auto-triggers on summary-type tasks via its description.
-
-### One Line for Agent Maintainers
-
-If your agent runs scheduled or unattended jobs, the cheapest anti-hallucination measure is to explicitly write into the summary-task prompt:
-
-> "Outputting 'no records' when data sources are empty is correct behavior."
-
-That single line defuses two conditions of the trigger formula (the hidden presupposition + the statistical prior). See [SKILL.md](grounded-summaries/SKILL.md) section 6 for full deployment advice.
-
-### License
-
-MIT
+[中文](#中文) | [English](#english)
 
 ---
 
@@ -98,6 +50,76 @@ cp -r grounded-summaries-skill/grounded-summaries /path/to/your/agent/skills/
 
 这一句话就能拆掉触发公式里的两个条件（任务前提暗示 + 统计先验）。完整的部署建议见 [SKILL.md](grounded-summaries/SKILL.md) 第六节。
 
+### 更多技能库
+
+| 仓库 | 简介 |
+|------|------|
+| [win-dev-pitfalls](https://github.com/mowenQWQ/win-dev-pitfalls) | Windows 开发踩坑全量主线 |
+| [bat-ps1-dev](https://github.com/mowenQWQ/bat-ps1-dev) | bat/PowerShell 脚本开发专项经验库 |
+| [Web-Security-Test-Rules](https://github.com/mowenQWQ/Web-Security-Test-Rules) | 已授权网站安全测试规则库 |
+| [unattended-task-pitfalls](https://github.com/mowenQWQ/unattended-task-pitfalls) | 无人值守自动任务加固经验库 |
+| [agent-mistake-patterns](https://github.com/mowenQWQ/agent-mistake-patterns) | AI 智能体犯错模式库与自我纠错纪律 |
+
 ### 许可
 
 MIT
+
+---
+
+## English
+
+A skill (Claude / Agent Skills format) that stops AI agents from fabricating content in summary tasks.
+
+### Background
+
+From a real production incident: an AI agent received a scheduled daily-summary task, but there had been no conversations that day. Instead of reporting "no records," it assembled an entire day of activity from the user profile and memory archives — details precise to the decimal point. It even wrote the fabricated entries into a persistent config file, creating a self-corroborating loop. Until the user saw the report and asked: *"When did I ever ask that?"*
+
+This skill turns the full postmortem (failure mode → trigger mechanism → rules → pre-flight checklist → examples) into a reusable guardrail.
+
+### Use Cases
+
+- Daily/weekly automated summary tasks for AI agents (the worst-hit zone)
+- Any retrospective, report, or changelog generated from conversation history or stored data
+- Auditing agent-generated logs for fabricated content
+
+### What's Inside
+
+- **Failure mode**: the Blank-Day Hallucination — generating "today's activity" from the user profile when data is empty
+- **Trigger formula**: Data Vacuum × Strong Template × High-Fidelity Material × Statistical Prior × No Verification
+- **Six rules**: factual output only from current-session tool returns; empty data → "no records"; memory archives ≠ today's facts; and more
+- **Pre-flight checklist**: traceability / profile contamination / number provenance / blank legitimacy / persistence gatekeeping
+
+### Installation
+
+```bash
+git clone https://github.com/mowenQWQ/grounded-summaries-skill.git
+cp -r grounded-summaries-skill/grounded-summaries /path/to/your/agent/skills/
+```
+
+For Claude Code / OpenClaw-style environments, the skills directory is typically `~/.claude/skills/` or `.claude/skills/` within a project; for other agent frameworks, check their respective skills paths.
+
+Zero configuration after install — the skill auto-triggers on summary-type tasks via its description.
+
+### One Line for Agent Maintainers
+
+If your agent runs scheduled or unattended jobs, the cheapest anti-hallucination measure is to explicitly write into the summary-task prompt:
+
+> "Outputting 'no records' when data sources are empty is correct behavior."
+
+That single line defuses two conditions of the trigger formula (the hidden presupposition + the statistical prior). See [SKILL.md](grounded-summaries/SKILL.md) section 6 for full deployment advice.
+
+### More Skill Repos
+
+| Repo | What it does |
+|------|--------------|
+| [win-dev-pitfalls](https://github.com/mowenQWQ/win-dev-pitfalls) | Windows development pitfalls vault (full line) |
+| [bat-ps1-dev](https://github.com/mowenQWQ/bat-ps1-dev) | Batch & PowerShell scripting vault |
+| [Web-Security-Test-Rules](https://github.com/mowenQWQ/Web-Security-Test-Rules) | Authorized web security testing rules |
+| [unattended-task-pitfalls](https://github.com/mowenQWQ/unattended-task-pitfalls) | Hardening playbook for unattended agent tasks |
+| [agent-mistake-patterns](https://github.com/mowenQWQ/agent-mistake-patterns) | AI-agent mistake patterns & self-correction discipline |
+
+### License
+
+MIT
+
+---
